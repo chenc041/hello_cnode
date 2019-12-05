@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
-import 'package:hello_cnode/utils/index.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/utils/request.dart';
 import 'package:hello_cnode/constants/index.dart';
 import 'package:hello_cnode/widgets/userMoment.dart';
@@ -26,7 +26,7 @@ class _UserProfile extends State<UserProfile> {
   List<UserDetail> _userDetail;
   String _currentTab = TAB_TYPE_OF_THEME;
 
-  String _userAvatar = randomAvatar();
+  String _userAvatar = Utils.randomAvatar();
 
   Future<Null> _getUserCenter() async {
     _userCenter = await Request.getUserCenter(widget.loginName);

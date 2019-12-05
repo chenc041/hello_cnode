@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:hello_cnode/models/home.dart';
 import 'package:hello_cnode/models/detail.dart';
 import 'package:hello_cnode/models/userCenter.dart';
-import 'package:hello_cnode/utils/index.dart';
+import 'package:hello_cnode/utils/utils.dart';
 
 /// this is the base request class
 const BASE_URL = 'https://cnodejs.org';
@@ -19,7 +19,7 @@ Dio dio = new Dio(options);
 class Request {
 
   static Home _returnAvatar(Home home) {
-    home.author.avatarUrl = randomAvatar();
+    home.author.avatarUrl = Utils.randomAvatar();
     return home;
   }
   // 首页数据

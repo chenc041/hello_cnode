@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:hello_cnode/models/detail.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
-import 'package:hello_cnode/utils/index.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/constants/index.dart';
 
 Widget detailContent(Detail detail, BuildContext context) {
@@ -27,7 +27,7 @@ Widget detailContent(Detail detail, BuildContext context) {
                   height: 30.0,
                   alignment: Alignment.bottomLeft,
                   margin: EdgeInsets.only(top: 10, right: 6, bottom: 15),
-                  child: Image.asset(randomAvatar()),
+                  child: Image.asset(Utils.randomAvatar()),
                 ),
               ),
               Expanded(

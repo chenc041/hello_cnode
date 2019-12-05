@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_cnode/constants/index.dart';
 import 'package:hello_cnode/models/reply.dart';
 import 'package:date_format/date_format.dart';
-import 'package:hello_cnode/utils/index.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
 
 Widget detailReplay(Reply reply, BuildContext context) {
@@ -23,7 +23,7 @@ Widget detailReplay(Reply reply, BuildContext context) {
                       height: 30.0,
                       alignment: Alignment.bottomLeft,
                       margin: EdgeInsets.only(right: 10),
-                      child: Image.asset(randomAvatar()),
+                      child: Image.asset(Utils.randomAvatar()),
                     ),
                   ),
                   Expanded(
