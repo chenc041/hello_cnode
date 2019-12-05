@@ -7,7 +7,7 @@ import 'package:date_format/date_format.dart';
 Widget userMoment(UserDetail detail, BuildContext context) {
   return Container(
     height: 80,
-    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
     width: double.infinity,
     decoration: BoxDecoration(
       boxShadow: [
@@ -20,7 +20,7 @@ Widget userMoment(UserDetail detail, BuildContext context) {
     alignment: Alignment.topLeft,
     child: Material(
       color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       child: InkWell(
         onTap: () {
           Navigator.of(context)
@@ -33,7 +33,7 @@ Widget userMoment(UserDetail detail, BuildContext context) {
               child: Container(
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 12, left: 10, right: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: Text(
                   detail.title*19 ?? '--',
                   style: TextStyle(fontSize: H2_SIZE),
