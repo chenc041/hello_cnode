@@ -8,7 +8,6 @@ import 'package:hello_cnode/iconFonts/MyIcons.dart';
 import 'package:hello_cnode/widgets/homeListItem.dart';
 import 'package:hello_cnode/widgets/loadingOrDefault.dart';
 import 'package:hello_cnode/widgets/bottomNavigationBar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 
