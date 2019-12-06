@@ -25,7 +25,6 @@ class _UserProfile extends State<UserProfile> {
   UserCenter _userCenter;
   List<UserDetail> _userDetail;
   String _currentTab = TAB_TYPE_OF_THEME;
-
   String _userAvatar = Utils.randomAvatar();
 
   Future<Null> _getUserCenter() async {
@@ -41,7 +40,7 @@ class _UserProfile extends State<UserProfile> {
   void _changeTab(String tab) {
     if (tab == TAB_TYPE_OF_THEME) {
       _userDetail = _userCenter.recentTopics;
-    } else {
+    } else if (tab == TAB_TYPE_OF_REPLY) {
       _userDetail = _userCenter.recentReplies;
     }
     setState(() {
@@ -75,7 +74,7 @@ class _UserProfile extends State<UserProfile> {
               slivers: <Widget>[
                 _buildBanner(),
                 _buildStickyBar(),
-                _buildList(_userDetail, context),
+                _buildList(_userDetail),
               ],
             )),
     );
@@ -190,7 +189,7 @@ class _UserProfile extends State<UserProfile> {
     );
   }
 
-  Widget _buildList(List<UserDetail> detail, BuildContext context) {
+  Widget _buildList(List<UserDetail> detail) {
     return SliverList(
         delegate: SliverChildBuilderDelegate(
       (context, index) {
@@ -203,7 +202,7 @@ class _UserProfile extends State<UserProfile> {
                   )
                 : userMoment(detail[index], context);
       },
-      childCount: detail?.length ?? 1,
+      childCount: detail.isEmpty ? 1 : detail.length,
     ));
   }
 }

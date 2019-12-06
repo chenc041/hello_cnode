@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hello_cnode/models/home.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
@@ -9,7 +8,6 @@ import 'package:hello_cnode/widgets/homeListItem.dart';
 import 'package:hello_cnode/widgets/loadingOrDefault.dart';
 import 'package:hello_cnode/widgets/bottomNavigationBar.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-
 
 class HomePage extends StatefulWidget {
   @override
