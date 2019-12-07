@@ -19,14 +19,18 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+
+  String _token;
   Detail _detailData;
   bool _isFinish = false;
 
   Future<Null> _getDetailData(String id) async {
     _detailData = await Request.getDetailData(id);
+    final prefs = await Utils.preference();
     setState(() {
       _isFinish = true;
       _detailData = _detailData;
+      _token = prefs.get('token');
     });
     return;
   }
@@ -38,11 +42,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void _handleCollect() async {
-    final prefs = await Utils.preference();
-    String token = prefs.get('token');
-    if (token == null){
+    if (_token == null){
     }
-    await Request.collectContent(widget.id, token);
+    await Request.collectContent(widget.id, _token);
   }
 
   @override
@@ -61,16 +63,13 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Container(
-            width: 200.0,
-            child: Text(_detailData?.title ?? '详情', overflow: TextOverflow.ellipsis),
-          ),
-          actions: <Widget>[
+          title: Text(_detailData?.title ?? '详情'),
+          actions: _token == null ? null : <Widget>[
             InkWell(
               onTap: _handleCollect,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(Icons.favorite, color: Colors.red),
+                child: _detailData?.isCollect != null ? Icon(Icons.favorite, color: Colors.red) : Icon(Icons.favorite_border),
               ),
             )
           ],
