@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:hello_cnode/models/home.dart';
 import 'package:hello_cnode/models/detail.dart';
 import 'package:hello_cnode/models/userCenter.dart';
+import 'package:hello_cnode/models/userDetail.dart';
 import 'package:hello_cnode/utils/utils.dart';
 
 /// this is the base request class
@@ -47,7 +48,8 @@ class Request {
   static Future<Detail> getDetailData(String id) async {
     Detail _detailData;
     try {
-      Response response = await dio.get('/api/v1/topic/$id?mdrender=false');
+      final prefs = await Utils.preference();
+      Response response = await dio.get('/api/v1/topic/$id', queryParameters: { 'mdrender': false, 'accessToken': prefs.get('token') });
       if (response.data['success']) {
         _detailData = Detail.fromJson(response.data['data']);
       }
@@ -62,7 +64,7 @@ class Request {
     UserCenter _userCenter;
     try {
       Response response =
-          await dio.get('https://cnodejs.org/api/v1/user/$loginName');
+          await dio.get('/api/v1/user/$loginName');
       if (response.data['success']) {
         _userCenter = UserCenter.fromJson(response.data['data']);
       }
@@ -71,4 +73,36 @@ class Request {
     }
     return _userCenter;
   }
+
+  // 获取个人收藏数据
+  static Future<List<UserDetail>> getUserCollect(String loginName) async {
+    List<UserDetail> _collect;
+    try {
+      Response response = await dio.get('/api/v1/topic_collect/$loginName');
+      if (response.data['success']) {
+        _collect = List<UserDetail>.from(
+          response.data['data'].map((item) => UserDetail.fromJson(item)));
+      } else {
+        _collect = [];
+      }
+    } catch (e) {
+      print(e);
+    }
+    return _collect;
+  }
+
+  // 收藏内容
+  static Future<bool> collectContent(String topicId, String accessToken) async {
+    bool _isSuccess = false;
+    try {
+      Response response = await dio.post('/topic_collect/collect', queryParameters: { 'topic_id': topicId, 'accesstoken': accessToken });
+      if (response.data['success']) {
+        _isSuccess = true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return _isSuccess;
+  }
+
 }

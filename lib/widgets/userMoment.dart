@@ -35,7 +35,7 @@ Widget userMoment(UserDetail detail, BuildContext context) {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: Text(
-                  detail.title*19 ?? '--',
+                  detail.title ?? '--',
                   style: TextStyle(fontSize: H2_SIZE),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

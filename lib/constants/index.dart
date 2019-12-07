@@ -27,6 +27,7 @@ const String NO_REPLY_CONTENT = '暂无回复';
 
 const String TAB_TYPE_OF_THEME = 'theme';
 const String TAB_TYPE_OF_REPLY = 'reply';
+const String TAB_TYPE_OF_COLLECT = 'collect';
 
 const double H1_SIZE = 18;
 const double H2_SIZE = 16;

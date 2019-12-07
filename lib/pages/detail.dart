@@ -1,6 +1,9 @@
+import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_cnode/utils/request.dart';
 import 'package:hello_cnode/models/detail.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/widgets/detailContent.dart';
 import 'package:hello_cnode/widgets/detailReplay.dart';
 import 'package:hello_cnode/constants/index.dart';
@@ -19,8 +22,8 @@ class _DetailPageState extends State<DetailPage> {
   Detail _detailData;
   bool _isFinish = false;
 
-  Future<Null> _getDetailData() async {
-    _detailData = await Request.getDetailData(widget.id);
+  Future<Null> _getDetailData(String id) async {
+    _detailData = await Request.getDetailData(id);
     setState(() {
       _isFinish = true;
       _detailData = _detailData;
@@ -28,10 +31,29 @@ class _DetailPageState extends State<DetailPage> {
     return;
   }
 
+  // 下拉刷新
+  Future<Null> _pullRefresh() async {
+    await _getDetailData(widget.id);
+    return;
+  }
+
+  void _handleCollect() async {
+    final prefs = await Utils.preference();
+    String token = prefs.get('token');
+    if (token == null){
+    }
+    await Request.collectContent(widget.id, token);
+  }
+
   @override
   void initState() {
     super.initState();
-    _getDetailData();
+    _getDetailData(widget.id);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -39,39 +61,55 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(_detailData?.title ?? '详情'),
+          title: Container(
+            width: 200.0,
+            child: Text(_detailData?.title ?? '详情', overflow: TextOverflow.ellipsis),
+          ),
+          actions: <Widget>[
+            InkWell(
+              onTap: _handleCollect,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: Icon(Icons.favorite, color: Colors.red),
+              ),
+            )
+          ],
         ),
         body: !_isFinish
             ? loading()
             : _detailData == null
                 ? empty()
                 : SafeArea(
-                    child: CustomScrollView(
-                      slivers: <Widget>[
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return detailContent(_detailData, context);
-                          }, childCount: 1),
-                        ),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return _detailData.replyCount == 0
-                                ? defaultContent(Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(bottom: 40),
-                                    child: Text(NO_REPLY_CONTENT, style: TextStyle(fontSize: H2_SIZE, color: Colors.grey[400])),
-                                  ))
-                                : detailReplay(
-                                    _detailData.replies[index], context);
-                          },
+                    child: RefreshIndicator(
+                      onRefresh: _pullRefresh,
+                      child: CustomScrollView(
+                        slivers: <Widget>[
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                                return detailContent(_detailData, context);
+                              }, childCount: 1),
+                          ),
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                                return _detailData.replyCount == 0
+                                  ? defaultContent(Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(bottom: 40),
+                                  child: Text(NO_REPLY_CONTENT, style: TextStyle(fontSize: H2_SIZE, color: Colors.grey[400])),
+                                ))
+                                  : detailReplay(
+                                  _detailData.replies[index], context);
+                              },
                               childCount: _detailData.replyCount == 0
-                                  ? 1
-                                  : _detailData.replyCount),
-                        )
-                      ],
+                                ? 1
+                                : _detailData.replyCount),
+                          )
+                        ],
+                      ),
                     ),
-                  ));
+                  )
+    );
   }
 }

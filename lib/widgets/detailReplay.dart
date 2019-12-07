@@ -29,38 +29,46 @@ Widget detailReplay(Reply reply, BuildContext context) {
                   Expanded(
                     flex: null,
                     child: Container(
-                      alignment: Alignment.centerRight,
+                      constraints: BoxConstraints(
+                        maxWidth: 200,
+                      ),
+                      alignment: Alignment.centerLeft,
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed('/userCenter',
                               arguments: ToUserCenter(reply.author.loginName,
                                   reply.author.avatarUrl));
                         },
-                        child: Text('@ ${reply.author.loginName}',
-                            style: TextStyle(fontSize: H2_SIZE, color: Colors.blue)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('@ ${reply.author.loginName}',
+                              softWrap: true,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: H2_SIZE, color: Colors.blue)
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 4),
+                              child: Text(
+                                formatDate(reply.createAt, [
+                                  yyyy,
+                                  '-',
+                                  mm,
+                                  '-',
+                                  dd,
+                                  '  ',
+                                  hh,
+                                  ':',
+                                  mm,
+                                  ':',
+                                  ss
+                                ]),
+                                style: TextStyle(fontSize: H3_SIZE)),
+                            )
+                          ],
+                        )
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: null,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                          formatDate(reply.createAt, [
-                            yyyy,
-                            '-',
-                            mm,
-                            '-',
-                            dd,
-                            '  ',
-                            hh,
-                            ':',
-                            mm,
-                            ':',
-                            ss
-                          ]),
-                          style: TextStyle(fontSize: H2_SIZE)),
                     ),
                   ),
                   Expanded(
@@ -81,7 +89,7 @@ Widget detailReplay(Reply reply, BuildContext context) {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
               Container(

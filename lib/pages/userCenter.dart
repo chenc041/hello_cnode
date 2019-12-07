@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hello_cnode/models/home.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
 import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/utils/request.dart';
@@ -23,10 +24,12 @@ class UserProfile extends StatefulWidget {
 class _UserProfile extends State<UserProfile> {
   bool _isFinish = false;
   UserCenter _userCenter;
+  List<UserDetail> _collect;
   List<UserDetail> _userDetail;
   String _currentTab = TAB_TYPE_OF_THEME;
   String _userAvatar = Utils.randomAvatar();
 
+  // 获取用户中心数据
   Future<Null> _getUserCenter() async {
     _userCenter = await Request.getUserCenter(widget.loginName);
     setState(() {
@@ -37,11 +40,21 @@ class _UserProfile extends State<UserProfile> {
     return;
   }
 
-  void _changeTab(String tab) {
+  // 获取用户搜藏内容
+  Future<Null> _getUserCollect() async {
+    _collect = await Request.getUserCollect(widget.loginName);
+    setState(() {
+      _collect = _collect;
+    });;
+  }
+
+  void _changeTab(String tab) async {
     if (tab == TAB_TYPE_OF_THEME) {
       _userDetail = _userCenter.recentTopics;
     } else if (tab == TAB_TYPE_OF_REPLY) {
       _userDetail = _userCenter.recentReplies;
+    } else {
+      _userDetail = _collect;
     }
     setState(() {
       _currentTab = tab;
@@ -53,6 +66,7 @@ class _UserProfile extends State<UserProfile> {
   void initState() {
     super.initState();
     _getUserCenter();
+    _getUserCollect();
   }
 
   @override
@@ -181,7 +195,33 @@ class _UserProfile extends State<UserProfile> {
                       child: Text('回复', style: TextStyle(fontSize: H2_SIZE)),
                     ),
                   ),
-                ))
+                )
+              ),
+              Expanded(
+                flex: 1,
+                child: Material(
+                  color: Colors.white,
+                  child: InkWell(
+                    onTap: () {
+                      _changeTab(TAB_TYPE_OF_COLLECT);
+                    },
+                    child: Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(width: 1.0, color: Colors.grey[200]),
+                          bottom: BorderSide(
+                            width: 1.0,
+                            color: _currentTab == TAB_TYPE_OF_COLLECT
+                              ? Colors.blue
+                              : Colors.grey[400]),
+                        )),
+                      alignment: Alignment.center,
+                      child: Text('收藏', style: TextStyle(fontSize: H2_SIZE)),
+                    ),
+                  ),
+                )
+              ),
             ],
           ),
         )
