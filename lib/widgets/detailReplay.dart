@@ -77,11 +77,11 @@ Widget detailReplay(Reply reply, BuildContext context) {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Icon(
-                            reply.isUped
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: reply.isUped ? Colors.red : Colors.grey,
-                            size: 18),
+                          reply.isUped
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                          color: reply.isUped ? Colors.red : Colors.grey,
+                          size: 18),
                         Container(
                           margin: EdgeInsets.only(left: 6),
                           child: Text('${reply.ups.length.toString()} 赞',

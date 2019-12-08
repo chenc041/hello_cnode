@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_cnode/models/home.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
 import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/utils/request.dart';
@@ -45,7 +44,7 @@ class _UserProfile extends State<UserProfile> {
     _collect = await Request.getUserCollect(widget.loginName);
     setState(() {
       _collect = _collect;
-    });;
+    });
   }
 
   void _changeTab(String tab) async {

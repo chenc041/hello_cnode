@@ -19,6 +19,10 @@ Dio dio = new Dio(options);
 
 class Request {
 
+  static Future<Null> demoFuture() async{
+    Future.delayed(Duration(milliseconds: 20));
+}
+
   static Home _returnAvatar(Home home) {
     home.author.avatarUrl = Utils.randomAvatar();
     return home;
@@ -45,11 +49,10 @@ class Request {
   }
 
   // 详情页数据
-  static Future<Detail> getDetailData(String id) async {
+  static Future<Detail> getDetailData(String id, String token) async {
     Detail _detailData;
     try {
-      final prefs = await Utils.preference();
-      Response response = await dio.get('/api/v1/topic/$id', queryParameters: { 'mdrender': false, 'accessToken': prefs.get('token') });
+      Response response = await dio.get('/api/v1/topic/$id', queryParameters: { 'mdrender': false, 'accesstoken': token });
       if (response.data['success']) {
         _detailData = Detail.fromJson(response.data['data']);
       }
@@ -95,7 +98,7 @@ class Request {
   static Future<bool> collectContent(String topicId, String accessToken) async {
     bool _isSuccess = false;
     try {
-      Response response = await dio.post('/topic_collect/collect', queryParameters: { 'topic_id': topicId, 'accesstoken': accessToken });
+      Response response = await dio.post('/api/v1/topic_collect/collect', data: { 'topic_id': topicId, 'accesstoken': accessToken });
       if (response.data['success']) {
         _isSuccess = true;
       }
@@ -104,5 +107,6 @@ class Request {
     }
     return _isSuccess;
   }
+
 
 }
