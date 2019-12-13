@@ -19,10 +19,6 @@ Dio dio = new Dio(options);
 
 class Request {
 
-  static Future<Null> demoFuture() async{
-    Future.delayed(Duration(milliseconds: 20));
-}
-
   static Home _returnAvatar(Home home) {
     home.author.avatarUrl = Utils.randomAvatar();
     return home;
@@ -77,7 +73,7 @@ class Request {
     return _userCenter;
   }
 
-  // 获取个人收藏数据
+  // 获取用户收藏
   static Future<List<UserDetail>> getUserCollect(String loginName) async {
     List<UserDetail> _collect;
     try {

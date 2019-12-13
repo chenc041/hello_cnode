@@ -8,7 +8,6 @@ import 'package:hello_cnode/widgets/detailContent.dart';
 import 'package:hello_cnode/widgets/detailReplay.dart';
 import 'package:hello_cnode/constants/index.dart';
 import 'package:hello_cnode/widgets/loadingOrDefault.dart';
-import 'package:package_info/package_info.dart';
 
 class DetailPage extends StatefulWidget {
   DetailPage({Key key, this.id}) : super(key: key);
@@ -45,8 +44,6 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void _handleCollect() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print('version ${packageInfo.version}');
     if (_token == null) {
       await Tips.showCustomDialog<bool>(
           context: context,
