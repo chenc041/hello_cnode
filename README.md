@@ -40,3 +40,5 @@ flutter packages pub run build_runner build
 - [package_info](https://pub.flutter-io.cn/packages/package_info) APK包信息
 
 ### 真机示例
+
+![demo pic](./example/example.gif)
