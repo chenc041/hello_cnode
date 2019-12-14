@@ -28,6 +28,7 @@ class _DetailPageState extends State<DetailPage> {
     final prefs = await Utils.preference();
     String _userToken = prefs.get('token');
     _detailData = await Request.getDetailData(id, _userToken);
+    print(_detailData.isCollect);
     setState(() {
       _isFinish = true;
       _token = _userToken;
@@ -40,10 +41,10 @@ class _DetailPageState extends State<DetailPage> {
   // 下拉刷新
   Future<Null> _pullRefresh() async {
     await _getDetailData(widget.id);
-    return;
   }
 
-  void _handleCollect() async {
+  Future<Null> _handleCollect() async {
+    bool isSuccess;
     if (_token == null) {
       await Tips.showCustomDialog<bool>(
           context: context,
@@ -54,8 +55,7 @@ class _DetailPageState extends State<DetailPage> {
                 FlatButton(
                   child: Text("确认"),
                   onPressed: () async {
-//                    await Utils.scanQrCode(context);
-                    Navigator.of(context).pop();
+                    await Utils.scanQrCode(context, () => Navigator.of(context).pop());
                   },
                 ),
               ],
@@ -63,25 +63,32 @@ class _DetailPageState extends State<DetailPage> {
           });
       return;
     }
-    bool isCollect = await Request.collectContent(widget.id, _token);
-    if (isCollect) {
+    if (_isCollect) {
+      isSuccess = await Request.unCollectContent(widget.id, _token);
+    } else {
+      isSuccess = await Request.collectContent(widget.id, _token);
+    }
+    if (isSuccess) {
       await Tips.showCustomDialog<bool>(
           context: context,
           builder: (context) {
             return AlertDialog(
               title: Text("提示"),
-              content: Text("收藏成功!!!"),
+              content: Text("${_isCollect ? '收藏':'取消收藏'}成功!!!"),
               actions: <Widget>[
                 FlatButton(
                   child: Text("确认"),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    _getDetailData(widget.id);
+                  },
                 ),
               ],
             );
           });
     }
     setState(() {
-      _isCollect = isCollect;
+      _isCollect = isSuccess;
     });
   }
 
@@ -117,7 +124,7 @@ class _DetailPageState extends State<DetailPage> {
         body: !_isFinish
             ? loading()
             : _detailData == null
-                ? empty()
+                ? empty(_getDetailData(widget.id))
                 : SafeArea(
                     child: RefreshIndicator(
                       onRefresh: _pullRefresh,

@@ -15,9 +15,16 @@ Widget notFound() {
   );
 }
 
-Widget empty() {
-  return Center(
-    child: Image.asset(EMPTY, width: 100, fit: BoxFit.fitWidth),
+Widget empty([callback]) {
+  return InkWell(
+    onTap: () async {
+      if (callback != null) {
+        callback();
+      }
+    },
+    child: Center(
+      child: Image.asset(EMPTY, width: 100, fit: BoxFit.fitWidth),
+    ),
   );
 }
 

@@ -1,5 +1,5 @@
 // 常量
-const String DEFAULT_IMAGE = 'assets/images/scientistavatar.png';
+const String AUTHOR_AVATAR = 'assets/images/avatar_icon.jpg';
 const String DEFAULT_AVATAR = 'assets/images/icon-test.png';
 const String DEFAULT_AVATAR_1 = 'assets/images/icon-test_1.png';
 const String DEFAULT_AVATAR_2 = 'assets/images/icon-test_2.png';

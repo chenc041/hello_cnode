@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hello_cnode/models/home.dart';
 import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/utils/request.dart';
+import 'package:hello_cnode/widgets/drawer.dart';
 import 'package:hello_cnode/iconFonts/MyIcons.dart';
 import 'package:hello_cnode/widgets/homeListItem.dart';
 import 'package:hello_cnode/widgets/loadingOrDefault.dart';
@@ -117,10 +118,11 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+      drawer: drawerPage(context),
       body: !_isFinish
           ? loading()
           : _data.isEmpty
-              ? empty()
+              ? empty(_getHomeData(_tabs[_selectedIndex]))
               : RefreshIndicator(
                   onRefresh: _pullRefresh,
                   child: Container(

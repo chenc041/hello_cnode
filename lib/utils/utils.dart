@@ -6,7 +6,7 @@ import 'package:hello_cnode/routes/routeParams.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-   static String randomAvatar() {
+  static String randomAvatar() {
     List<String> _avatars = [
       DEFAULT_AVATAR,
       DEFAULT_AVATAR_1,
@@ -31,17 +31,23 @@ class Utils {
     return _avatars[_index.nextInt(18)];
   }
 
-   static Future<SharedPreferences> preference() async {
-     return await SharedPreferences.getInstance();
-   }
+  // 文件缓存
+  static Future<SharedPreferences> preference() async {
+    return await SharedPreferences.getInstance();
+  }
 
-   static Future<Null> scanQrCode(context) async {
-     String cameraScanResult = await scanner.scan();
-     final prefs = await Utils.preference();
-     if (cameraScanResult.startsWith('http')) {
-       Navigator.of(context).pushNamed('/webview', arguments: ToWebView(cameraScanResult, '扫码'));
-     } else {
-       prefs.setString('token', cameraScanResult);
-     }
-   }
+  // 扫描二维码
+  static Future<Null> scanQrCode<T extends Function>(BuildContext context, [T callback]) async {
+    String cameraScanResult = await scanner.scan();
+    if (cameraScanResult.startsWith('http')) {
+      Navigator.of(context)
+          .pushNamed('/webview', arguments: ToWebView(cameraScanResult, '扫码'));
+    } else {
+      final prefs = await Utils.preference();
+      prefs.setString('token', cameraScanResult);
+      if (callback != null) {
+        callback();
+      }
+    }
+  }
 }

@@ -117,17 +117,22 @@ class _UserProfile extends State<UserProfile> {
                       margin: EdgeInsets.only(right: 4),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/webview', arguments: ToWebView(WEB_VIEW_BASE_URL + widget.loginName, widget.loginName));
+                          Navigator.of(context).pushNamed('/webview',
+                              arguments: ToWebView(
+                                  WEB_VIEW_BASE_URL + widget.loginName,
+                                  widget.loginName));
                         },
                         child: Text('@ ${widget?.loginName ?? '--'}',
-                            style: TextStyle(fontSize: H2_SIZE, color: Colors.white)),
+                            style: TextStyle(
+                                fontSize: H2_SIZE, color: Colors.white)),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 4),
                       decoration: BoxDecoration(),
                       child: Text('积分 ${_userCenter?.score ?? '0'}',
-                          style: TextStyle(fontSize: H2_SIZE, color: Colors.white)),
+                          style: TextStyle(
+                              fontSize: H2_SIZE, color: Colors.white)),
                     ),
                   ],
                 ),
@@ -142,89 +147,91 @@ class _UserProfile extends State<UserProfile> {
       pinned: true, //是否固定在顶部
       floating: true,
       delegate: _SliverAppBarDelegate(
-        minHeight: 60, //收起的高度
-        maxHeight: 60, //展开的最大高度
-        child: Container(
-          margin: EdgeInsets.only(bottom: 10),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Material(
-                  color: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      _changeTab(TAB_TYPE_OF_THEME);
-                    },
-                    child: Container(
-                      height: 50.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1.0,
-                            color: _currentTab == TAB_TYPE_OF_THEME
-                              ? Colors.blue
-                              : Colors.grey[400]),
-                        )),
-                      child: Text('主题', style: TextStyle(fontSize: H2_SIZE)),
-                    ),
-                  ),
-                )),
-              Expanded(
-                flex: 1,
-                child: Material(
-                  color: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      _changeTab(TAB_TYPE_OF_REPLY);
-                    },
-                    child: Container(
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(width: 1.0, color: Colors.grey[200]),
-                          bottom: BorderSide(
-                            width: 1.0,
-                            color: _currentTab == TAB_TYPE_OF_REPLY
-                              ? Colors.blue
-                              : Colors.grey[400]),
-                        )),
-                      alignment: Alignment.center,
-                      child: Text('回复', style: TextStyle(fontSize: H2_SIZE)),
-                    ),
-                  ),
-                )
-              ),
-              Expanded(
-                flex: 1,
-                child: Material(
-                  color: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      _changeTab(TAB_TYPE_OF_COLLECT);
-                    },
-                    child: Container(
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(width: 1.0, color: Colors.grey[200]),
-                          bottom: BorderSide(
-                            width: 1.0,
-                            color: _currentTab == TAB_TYPE_OF_COLLECT
-                              ? Colors.blue
-                              : Colors.grey[400]),
-                        )),
-                      alignment: Alignment.center,
-                      child: Text('收藏', style: TextStyle(fontSize: H2_SIZE)),
-                    ),
-                  ),
-                )
-              ),
-            ],
-          ),
-        )
-      ),
+          minHeight: 60, //收起的高度
+          maxHeight: 60, //展开的最大高度
+          child: Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    flex: 1,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          _changeTab(TAB_TYPE_OF_THEME);
+                        },
+                        child: Container(
+                          height: 50.0,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: _currentTab == TAB_TYPE_OF_THEME
+                                    ? Colors.blue
+                                    : Colors.grey[400]),
+                          )),
+                          child:
+                              Text('主题', style: TextStyle(fontSize: H2_SIZE)),
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          _changeTab(TAB_TYPE_OF_REPLY);
+                        },
+                        child: Container(
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            left:
+                                BorderSide(width: 1.0, color: Colors.grey[200]),
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: _currentTab == TAB_TYPE_OF_REPLY
+                                    ? Colors.blue
+                                    : Colors.grey[400]),
+                          )),
+                          alignment: Alignment.center,
+                          child:
+                              Text('回复', style: TextStyle(fontSize: H2_SIZE)),
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          _changeTab(TAB_TYPE_OF_COLLECT);
+                        },
+                        child: Container(
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            left:
+                                BorderSide(width: 1.0, color: Colors.grey[200]),
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: _currentTab == TAB_TYPE_OF_COLLECT
+                                    ? Colors.blue
+                                    : Colors.grey[400]),
+                          )),
+                          alignment: Alignment.center,
+                          child:
+                              Text('收藏', style: TextStyle(fontSize: H2_SIZE)),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          )),
     );
   }
 

@@ -7,8 +7,8 @@ import 'package:hello_cnode/utils/utils.dart';
 
 /// this is the base request class
 const BASE_URL = 'https://cnodejs.org';
-const CONNECT_TIME_OUT = 5000;
-const RECEIVE_TIME_OUT = 5000;
+const CONNECT_TIME_OUT = 10000;
+const RECEIVE_TIME_OUT = 10000;
 
 BaseOptions options = new BaseOptions(
   baseUrl: BASE_URL,
@@ -18,11 +18,11 @@ BaseOptions options = new BaseOptions(
 Dio dio = new Dio(options);
 
 class Request {
-
   static Home _returnAvatar(Home home) {
     home.author.avatarUrl = Utils.randomAvatar();
     return home;
   }
+
   // 首页数据
   static Future<List<Home>> getHomeData(String tab, [int page = 1]) async {
     List<Home> _homeData = [];
@@ -33,8 +33,8 @@ class Request {
       Response response = await dio.get('/api/v1/topics',
           queryParameters: {"mdrender": false, "tab": tab, "page": page});
       if (response.data['success']) {
-        _homeData = List<Home>.from(
-            response.data['data'].map((item) => _returnAvatar(Home.fromJson(item))));
+        _homeData = List<Home>.from(response.data['data']
+            .map((item) => _returnAvatar(Home.fromJson(item))));
       } else {
         _homeData = [];
       }
@@ -48,7 +48,8 @@ class Request {
   static Future<Detail> getDetailData(String id, String token) async {
     Detail _detailData;
     try {
-      Response response = await dio.get('/api/v1/topic/$id', queryParameters: { 'mdrender': false, 'accesstoken': token });
+      Response response = await dio.get('/api/v1/topic/$id',
+          queryParameters: {'mdrender': false, 'accesstoken': token});
       if (response.data['success']) {
         _detailData = Detail.fromJson(response.data['data']);
       }
@@ -62,8 +63,7 @@ class Request {
   static Future<UserCenter> getUserCenter(String loginName) async {
     UserCenter _userCenter;
     try {
-      Response response =
-          await dio.get('/api/v1/user/$loginName');
+      Response response = await dio.get('/api/v1/user/$loginName');
       if (response.data['success']) {
         _userCenter = UserCenter.fromJson(response.data['data']);
       }
@@ -80,7 +80,7 @@ class Request {
       Response response = await dio.get('/api/v1/topic_collect/$loginName');
       if (response.data['success']) {
         _collect = List<UserDetail>.from(
-          response.data['data'].map((item) => UserDetail.fromJson(item)));
+            response.data['data'].map((item) => UserDetail.fromJson(item)));
       } else {
         _collect = [];
       }
@@ -94,7 +94,8 @@ class Request {
   static Future<bool> collectContent(String topicId, String accessToken) async {
     bool _isSuccess = false;
     try {
-      Response response = await dio.post('/api/v1/topic_collect/collect', data: { 'topic_id': topicId, 'accesstoken': accessToken });
+      Response response = await dio.post('/api/v1/topic_collect/collect',
+          data: {'topic_id': topicId, 'accesstoken': accessToken});
       if (response.data['success']) {
         _isSuccess = true;
       }
@@ -104,5 +105,18 @@ class Request {
     return _isSuccess;
   }
 
-
+  // 取消收藏
+  static Future<bool> unCollectContent(String topicId, String accessToken) async {
+    bool _isSuccess = false;
+    try {
+      Response response = await dio.post('/api/v1/topic_collect/de_collect',
+          data: {'topic_id': topicId, 'accesstoken': accessToken});
+      if (response.data['success']) {
+        _isSuccess = true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return _isSuccess;
+  }
 }

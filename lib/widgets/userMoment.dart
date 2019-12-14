@@ -12,9 +12,7 @@ Widget userMoment(UserDetail detail, BuildContext context) {
     decoration: BoxDecoration(
       boxShadow: [
         BoxShadow(
-            color: Colors.grey[300],
-            offset: Offset(0.0, 0.0),
-            blurRadius: 10.0)
+            color: Colors.grey[300], offset: Offset(0.0, 0.0), blurRadius: 10.0)
       ],
     ),
     alignment: Alignment.topLeft,
@@ -50,18 +48,18 @@ Widget userMoment(UserDetail detail, BuildContext context) {
                 child: Text(
                   detail.lastReplyAt != null
                       ? formatDate(detail.lastReplyAt, [
-                    yyyy,
-                    '-',
-                    mm,
-                    '-',
-                    dd,
-                    '  ',
-                    hh,
-                    ':',
-                    mm,
-                    ':',
-                    ss
-                  ]).toString()
+                          yyyy,
+                          '-',
+                          mm,
+                          '-',
+                          dd,
+                          '  ',
+                          hh,
+                          ':',
+                          mm,
+                          ':',
+                          ss
+                        ]).toString()
                       : '-',
                   style: TextStyle(fontSize: H4_SIZE),
                   maxLines: 1,

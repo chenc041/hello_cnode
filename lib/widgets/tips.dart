@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Tips {
-
   static Future<bool> showConfirmDialog(String text, BuildContext context) {
     return showDialog<bool>(
       context: context,
@@ -19,7 +18,6 @@ class Tips {
       },
     );
   }
-
 
   static Future<T> showCustomDialog<T>({
     @required BuildContext context,
