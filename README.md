@@ -37,7 +37,6 @@ flutter packages pub run build_runner build
 - [webview_flutter](https://pub.flutter-io.cn/packages/webview_flutter) web_view
 - [shared_preferences](https://pub.flutter-io.cn/packages/shared_preferences) 简单的数据缓存
 - [qrscan](https://pub.flutter-io.cn/packages/qrscan) 安卓扫码
-- [package_info](https://pub.flutter-io.cn/packages/package_info) APK包信息
 
 ### 真机示例
 
