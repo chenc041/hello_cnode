@@ -22,9 +22,11 @@ Widget drawerPage(BuildContext context) {
           ),
         ),
         Container(
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: <Widget>[
               Container(
+                alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(top: 10),
                 child: InkWell(
                   onTap: () {
@@ -42,12 +44,19 @@ Widget drawerPage(BuildContext context) {
                 ),
               ),
               Container(
+                alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(top: 10),
                 child: Text('职业: 前端', style: TextStyle(fontSize: H2_SIZE)),
               ),
               Container(
+                alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(top: 10),
                 child: Text('爱好: 吃饭, 睡觉, 钓鱼', style: TextStyle(fontSize: H2_SIZE)),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                margin: EdgeInsets.only(top: 10),
+                child: Text('说明: 学习在于实践, 所以借用cnode的open api, 写了这个小应用, 纯为学习flutter', style: TextStyle(fontSize: H2_SIZE)),
               )
             ],
           ),

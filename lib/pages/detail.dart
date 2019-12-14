@@ -28,7 +28,6 @@ class _DetailPageState extends State<DetailPage> {
     final prefs = await Utils.preference();
     String _userToken = prefs.get('token');
     _detailData = await Request.getDetailData(id, _userToken);
-    print(_detailData.isCollect);
     setState(() {
       _isFinish = true;
       _token = _userToken;
@@ -43,19 +42,24 @@ class _DetailPageState extends State<DetailPage> {
     await _getDetailData(widget.id);
   }
 
+  // 帖子收藏
   Future<Null> _handleCollect() async {
-    bool isSuccess;
+    bool _isSuccess;
+    bool _isCollected = false;
     if (_token == null) {
       await Tips.showCustomDialog<bool>(
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: Text('请先登录哦!'),
+              content: Text('请先登录哦!!!!'),
               actions: <Widget>[
                 FlatButton(
                   child: Text("确认"),
                   onPressed: () async {
-                    await Utils.scanQrCode(context, () => Navigator.of(context).pop());
+                    await Utils.scanQrCode(context, () {
+                      Navigator.of(context).pop();
+                      _getDetailData(widget.id);
+                    });
                   },
                 ),
               ],
@@ -64,21 +68,22 @@ class _DetailPageState extends State<DetailPage> {
       return;
     }
     if (_isCollect) {
-      isSuccess = await Request.unCollectContent(widget.id, _token);
+      _isSuccess = await Request.unCollectContent(widget.id, _token);
     } else {
-      isSuccess = await Request.collectContent(widget.id, _token);
+      _isSuccess = await Request.collectContent(widget.id, _token);
+      _isCollected = _isSuccess;
     }
-    if (isSuccess) {
+    if (_isSuccess) {
       await Tips.showCustomDialog<bool>(
           context: context,
           builder: (context) {
             return AlertDialog(
               title: Text("提示"),
-              content: Text("${_isCollect ? '收藏':'取消收藏'}成功!!!"),
+              content: Text("${_isCollected ? '收藏' : '取消收藏'}成功!!!"),
               actions: <Widget>[
                 FlatButton(
                   child: Text("确认"),
-                  onPressed: () async {
+                  onPressed: () {
                     Navigator.of(context).pop();
                     _getDetailData(widget.id);
                   },
@@ -87,9 +92,6 @@ class _DetailPageState extends State<DetailPage> {
             );
           });
     }
-    setState(() {
-      _isCollect = isSuccess;
-    });
   }
 
   @override
