@@ -56,7 +56,7 @@ Widget drawerPage(BuildContext context) {
               Container(
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(top: 10),
-                child: Text('说明: 学习在于实践, 所以借用cnode的open api, 写了这个小应用, 纯为学习flutter', style: TextStyle(fontSize: H2_SIZE)),
+                child: Text('说明: 学习在于实践, 所以借用cnode的open api, 写了这个小应用, 纯为学习flutter, 如果觉得还可以, 可以给个 star哈!!', style: TextStyle(fontSize: H2_SIZE)),
               )
             ],
           ),
