@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
-import 'package:hello_cnode/utils/index.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/utils/request.dart';
 import 'package:hello_cnode/constants/index.dart';
 import 'package:hello_cnode/widgets/userMoment.dart';
@@ -23,11 +23,12 @@ class UserProfile extends StatefulWidget {
 class _UserProfile extends State<UserProfile> {
   bool _isFinish = false;
   UserCenter _userCenter;
+  List<UserDetail> _collect;
   List<UserDetail> _userDetail;
   String _currentTab = TAB_TYPE_OF_THEME;
+  String _userAvatar = Utils.randomAvatar();
 
-  String _userAvatar = randomAvatar();
-
+  // 获取用户中心数据
   Future<Null> _getUserCenter() async {
     _userCenter = await Request.getUserCenter(widget.loginName);
     setState(() {
@@ -38,11 +39,21 @@ class _UserProfile extends State<UserProfile> {
     return;
   }
 
-  void _changeTab(String tab) {
+  // 获取用户搜藏内容
+  Future<Null> _getUserCollect() async {
+    _collect = await Request.getUserCollect(widget.loginName);
+    setState(() {
+      _collect = _collect;
+    });
+  }
+
+  void _changeTab(String tab) async {
     if (tab == TAB_TYPE_OF_THEME) {
       _userDetail = _userCenter.recentTopics;
-    } else {
+    } else if (tab == TAB_TYPE_OF_REPLY) {
       _userDetail = _userCenter.recentReplies;
+    } else {
+      _userDetail = _collect;
     }
     setState(() {
       _currentTab = tab;
@@ -54,6 +65,7 @@ class _UserProfile extends State<UserProfile> {
   void initState() {
     super.initState();
     _getUserCenter();
+    _getUserCollect();
   }
 
   @override
@@ -75,7 +87,7 @@ class _UserProfile extends State<UserProfile> {
               slivers: <Widget>[
                 _buildBanner(),
                 _buildStickyBar(),
-                _buildList(_userDetail, context),
+                _buildList(_userDetail),
               ],
             )),
     );
@@ -105,17 +117,22 @@ class _UserProfile extends State<UserProfile> {
                       margin: EdgeInsets.only(right: 4),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/webview', arguments: ToWebView(WEB_VIEW_BASE_URL + widget.loginName, widget.loginName));
+                          Navigator.of(context).pushNamed('/webview',
+                              arguments: ToWebView(
+                                  WEB_VIEW_BASE_URL + widget.loginName,
+                                  widget.loginName));
                         },
                         child: Text('@ ${widget?.loginName ?? '--'}',
-                            style: TextStyle(fontSize: H2_SIZE, color: Colors.white)),
+                            style: TextStyle(
+                                fontSize: H2_SIZE, color: Colors.white)),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 4),
                       decoration: BoxDecoration(),
                       child: Text('积分 ${_userCenter?.score ?? '0'}',
-                          style: TextStyle(fontSize: H2_SIZE, color: Colors.white)),
+                          style: TextStyle(
+                              fontSize: H2_SIZE, color: Colors.white)),
                     ),
                   ],
                 ),
@@ -130,67 +147,95 @@ class _UserProfile extends State<UserProfile> {
       pinned: true, //是否固定在顶部
       floating: true,
       delegate: _SliverAppBarDelegate(
-        minHeight: 60, //收起的高度
-        maxHeight: 60, //展开的最大高度
-        child: Container(
-          margin: EdgeInsets.only(bottom: 10),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Material(
-                  color: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      _changeTab(TAB_TYPE_OF_THEME);
-                    },
-                    child: Container(
-                      height: 50.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1.0,
-                            color: _currentTab == TAB_TYPE_OF_THEME
-                              ? Colors.blue
-                              : Colors.grey[400]),
-                        )),
-                      child: Text('主题', style: TextStyle(fontSize: H2_SIZE)),
-                    ),
-                  ),
-                )),
-              Expanded(
-                flex: 1,
-                child: Material(
-                  color: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      _changeTab(TAB_TYPE_OF_REPLY);
-                    },
-                    child: Container(
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(width: 1.0, color: Colors.grey[200]),
-                          bottom: BorderSide(
-                            width: 1.0,
-                            color: _currentTab == TAB_TYPE_OF_REPLY
-                              ? Colors.blue
-                              : Colors.grey[400]),
-                        )),
-                      alignment: Alignment.center,
-                      child: Text('回复', style: TextStyle(fontSize: H2_SIZE)),
-                    ),
-                  ),
-                ))
-            ],
-          ),
-        )
-      ),
+          minHeight: 60, //收起的高度
+          maxHeight: 60, //展开的最大高度
+          child: Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    flex: 1,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          _changeTab(TAB_TYPE_OF_THEME);
+                        },
+                        child: Container(
+                          height: 50.0,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: _currentTab == TAB_TYPE_OF_THEME
+                                    ? Colors.blue
+                                    : Colors.grey[400]),
+                          )),
+                          child:
+                              Text('主题', style: TextStyle(fontSize: H2_SIZE)),
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          _changeTab(TAB_TYPE_OF_REPLY);
+                        },
+                        child: Container(
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            left:
+                                BorderSide(width: 1.0, color: Colors.grey[200]),
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: _currentTab == TAB_TYPE_OF_REPLY
+                                    ? Colors.blue
+                                    : Colors.grey[400]),
+                          )),
+                          alignment: Alignment.center,
+                          child:
+                              Text('回复', style: TextStyle(fontSize: H2_SIZE)),
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          _changeTab(TAB_TYPE_OF_COLLECT);
+                        },
+                        child: Container(
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            left:
+                                BorderSide(width: 1.0, color: Colors.grey[200]),
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: _currentTab == TAB_TYPE_OF_COLLECT
+                                    ? Colors.blue
+                                    : Colors.grey[400]),
+                          )),
+                          alignment: Alignment.center,
+                          child:
+                              Text('收藏', style: TextStyle(fontSize: H2_SIZE)),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          )),
     );
   }
 
-  Widget _buildList(List<UserDetail> detail, BuildContext context) {
+  Widget _buildList(List<UserDetail> detail) {
     return SliverList(
         delegate: SliverChildBuilderDelegate(
       (context, index) {
@@ -203,7 +248,7 @@ class _UserProfile extends State<UserProfile> {
                   )
                 : userMoment(detail[index], context);
       },
-      childCount: detail?.length ?? 1,
+      childCount: detail.isEmpty ? 1 : detail.length,
     ));
   }
 }

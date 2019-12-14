@@ -20,8 +20,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/webview':
       final ToWebView args = settings.arguments;
       return MaterialPageRoute(
-          builder: (context) => WebViewPage(
-              url: args.url, title: args.title));
+          builder: (context) => WebViewPage(url: args.url, title: args.title));
     default:
       return MaterialPageRoute(builder: (context) => HomePage());
   }

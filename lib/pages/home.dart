@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hello_cnode/models/home.dart';
-import 'package:hello_cnode/routes/routeParams.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/utils/request.dart';
+import 'package:hello_cnode/widgets/drawer.dart';
 import 'package:hello_cnode/iconFonts/MyIcons.dart';
 import 'package:hello_cnode/widgets/homeListItem.dart';
 import 'package:hello_cnode/widgets/loadingOrDefault.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hello_cnode/widgets/bottomNavigationBar.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,6 +38,7 @@ class _HomePageState extends State<HomePage> {
     _isFinish = false;
     setState(() {
       _data = [];
+      _isShow = false;
       _currentPage = 1;
       _selectedIndex = index;
       _currentTab = _tabs[index];
@@ -68,13 +67,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Null> _scan() async {
-    String cameraScanResult = await scanner.scan();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (cameraScanResult.startsWith('http')) {
-      Navigator.of(context).pushNamed('/webview', arguments: ToWebView(cameraScanResult, '扫码'));
-    } else {
-      prefs.setString('token', cameraScanResult);
-    }
+    await Utils.scanQrCode(context);
   }
 
   // 初始化数据
@@ -125,10 +118,11 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+      drawer: drawerPage(context),
       body: !_isFinish
           ? loading()
           : _data.isEmpty
-              ? empty()
+              ? empty(_getHomeData(_tabs[_selectedIndex]))
               : RefreshIndicator(
                   onRefresh: _pullRefresh,
                   child: Container(

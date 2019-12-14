@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:hello_cnode/models/detail.dart';
 import 'package:hello_cnode/routes/routeParams.dart';
-import 'package:hello_cnode/utils/index.dart';
+import 'package:hello_cnode/utils/utils.dart';
 import 'package:hello_cnode/constants/index.dart';
 
 Widget detailContent(Detail detail, BuildContext context) {
@@ -27,7 +27,7 @@ Widget detailContent(Detail detail, BuildContext context) {
                   height: 30.0,
                   alignment: Alignment.bottomLeft,
                   margin: EdgeInsets.only(top: 10, right: 6, bottom: 15),
-                  child: Image.asset(randomAvatar()),
+                  child: Image.asset(Utils.randomAvatar()),
                 ),
               ),
               Expanded(
@@ -41,7 +41,8 @@ Widget detailContent(Detail detail, BuildContext context) {
                     child: Container(
                       alignment: Alignment.centerRight,
                       child: Text('@ ${detail.author.loginName}',
-                          style: TextStyle(fontSize: H2_SIZE, color: Colors.blue)),
+                          style:
+                              TextStyle(fontSize: H2_SIZE, color: Colors.blue)),
                     ),
                   )),
               Expanded(
@@ -58,17 +59,20 @@ Widget detailContent(Detail detail, BuildContext context) {
           ),
         ),
         Container(
-          child: Text(detail.content ?? '暂无内容', style: TextStyle(fontSize: H3_SIZE)),
+          child: Text(detail.content ?? '暂无内容',
+              style: TextStyle(fontSize: H3_SIZE)),
         ),
         Container(
           width: double.infinity,
           padding: EdgeInsets.only(bottom: 10),
           margin: EdgeInsets.only(top: 20, bottom: 10),
           decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.black, width: .1))
-          ),
-          child: detail.replyCount != 0 ? Text('回复总数: ${detail.replyCount.toString()}',
-              style: TextStyle(fontSize: H2_SIZE)) : null,
+              border:
+                  Border(bottom: BorderSide(color: Colors.black, width: .1))),
+          child: detail.replyCount != 0
+              ? Text('回复总数: ${detail.replyCount.toString()}',
+                  style: TextStyle(fontSize: H2_SIZE))
+              : null,
         ),
       ],
     ),

@@ -13,8 +13,6 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-
-
   int _stackToView = 1;
 
   void _handleLoad(String value) {
@@ -36,31 +34,29 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      body: IndexedStack(
-        index: _stackToView,
-        children: [
-          Column(
-            children: <Widget> [
-              Expanded(
-                child: WebView(
+        appBar: AppBar(
+          title: Text(widget.title),
+          centerTitle: true,
+        ),
+        body: IndexedStack(
+          index: _stackToView,
+          children: [
+            Column(
+              children: <Widget>[
+                Expanded(
+                    child: WebView(
                   initialUrl: widget.url,
                   debuggingEnabled: true,
                   onPageFinished: _handleLoad,
                   javascriptMode: JavascriptMode.unrestricted,
-                )
-              ),
-            ],
-          ),
-          Container(
-            color: Colors.white,
-            child: loading(),
-          ),
-        ],
-      )
-    );
+                )),
+              ],
+            ),
+            Container(
+              color: Colors.white,
+              child: loading(),
+            ),
+          ],
+        ));
   }
 }
