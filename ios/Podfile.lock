@@ -1,7 +1,5 @@
 PODS:
   - Flutter (1.0.0)
-  - package_info (0.0.1):
-    - Flutter
   - qrscan (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
@@ -15,7 +13,6 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - package_info (from `.symlinks/plugins/package_info/ios`)
   - qrscan (from `.symlinks/plugins/qrscan/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
@@ -25,8 +22,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  package_info:
-    :path: ".symlinks/plugins/package_info/ios"
   qrscan:
     :path: ".symlinks/plugins/qrscan/ios"
   shared_preferences:
@@ -40,7 +35,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   qrscan: 42f49ba37d3c423a3b140434003e821135cfc4c3
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087

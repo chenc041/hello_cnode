@@ -9,22 +9,51 @@ Widget loading() {
   ));
 }
 
-Widget notFound() {
+Widget notFound([callback]) {
   return Center(
-    child: Image.asset(NOT_FOUND, width: 100, fit: BoxFit.fitWidth),
+    child: Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        children: <Widget>[
+          Image.asset(NOT_FOUND, width: 100, fit: BoxFit.fitWidth),
+          InkWell(
+            onTap: () {
+              if (callback != null) {
+                callback();
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Text('点击重新加载', style: TextStyle(color: Colors.grey)),
+            ),
+          )
+        ],
+      ),
+    ),
   );
 }
 
 Widget empty([callback]) {
-  return InkWell(
-    onTap: () async {
-      if (callback != null) {
-        callback();
-      }
-    },
-    child: Center(
-      child: Image.asset(EMPTY, width: 100, fit: BoxFit.fitWidth),
-    ),
+  return Center(
+    child: Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        children: <Widget>[
+          Image.asset(EMPTY, width: 100, fit: BoxFit.fitWidth),
+          InkWell(
+            onTap: () {
+              if (callback!= null) {
+                callback();
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Text('点击重新加载', style: TextStyle(color: Colors.grey)),
+            ),
+          )
+        ],
+      ),
+    )
   );
 }
 

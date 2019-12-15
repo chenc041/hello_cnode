@@ -4,6 +4,10 @@ A cnode client written by flutter
 
 ### 作者: [@chenc](https://github.com/cWatermelon)
 
+### 安装体验
+- [arm64](https://github.com/cWatermelon/hello_cnode/blob/master/apk/app-arm64-v8a-release.apk)
+- [普通版本](https://github.com/cWatermelon/hello_cnode/blob/master/apk/app-armeabi-v7a-release.apk)
+
 ## 开始使用
 
 ### 生成model 文件
@@ -41,3 +45,4 @@ flutter packages pub run build_runner build
 ### 真机示例
 
 ![demo pic](./example/example.gif)
+

@@ -27,12 +27,15 @@ class _DetailPageState extends State<DetailPage> {
   Future<Null> _getDetailData(String id) async {
     final prefs = await Utils.preference();
     String _userToken = prefs.get('token');
+    setState(() {
+      _isFinish = false;
+    });
     _detailData = await Request.getDetailData(id, _userToken);
     setState(() {
       _isFinish = true;
       _token = _userToken;
       _detailData = _detailData;
-      _isCollect = _detailData.isCollect;
+      _isCollect = _detailData.isCollect?? false;
     });
     return;
   }
@@ -40,6 +43,10 @@ class _DetailPageState extends State<DetailPage> {
   // 下拉刷新
   Future<Null> _pullRefresh() async {
     await _getDetailData(widget.id);
+  }
+
+  void _handleReload() {
+    _getDetailData(widget.id);
   }
 
   // 帖子收藏
@@ -126,7 +133,7 @@ class _DetailPageState extends State<DetailPage> {
         body: !_isFinish
             ? loading()
             : _detailData == null
-                ? empty(_getDetailData(widget.id))
+                ? empty(_handleReload)
                 : SafeArea(
                     child: RefreshIndicator(
                       onRefresh: _pullRefresh,

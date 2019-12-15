@@ -48,6 +48,9 @@ class _HomePageState extends State<HomePage> {
 
   // 获取首页列表数据
   Future<Null> _getHomeData(String tab, [int page = 1]) async {
+    setState(() {
+      _isFinish = false;
+    });
     List<Home> _result = await Request.getHomeData(tab, page);
     _data.addAll(_result);
     setState(() {
@@ -66,8 +69,14 @@ class _HomePageState extends State<HomePage> {
     return;
   }
 
+  // 扫码
   Future<Null> _scan() async {
     await Utils.scanQrCode(context);
+  }
+
+  // 重新加载
+  void _handleReload() {
+    _getHomeData(_tabs[_selectedIndex]);
   }
 
   // 初始化数据
@@ -122,14 +131,14 @@ class _HomePageState extends State<HomePage> {
       body: !_isFinish
           ? loading()
           : _data.isEmpty
-              ? empty(_getHomeData(_tabs[_selectedIndex]))
+              ? empty(_handleReload)
               : RefreshIndicator(
                   onRefresh: _pullRefresh,
                   child: Container(
                     margin: EdgeInsets.only(top: 12, bottom: 12),
                     child: ListView.builder(
                       itemExtent: 94.0,
-                      itemCount: _data.length != null ? _data.length : 1,
+                      itemCount: _data.length ?? 1,
                       controller: _scrollController,
                       itemBuilder: (context, index) {
                         if (index == (_data.length - 1)) {
