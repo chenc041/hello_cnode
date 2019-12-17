@@ -2,7 +2,15 @@
 
 A cnode client written by flutter
 
+- 欢迎大家试用哈~~~
+
 ### 作者: [@chenc](https://github.com/cWatermelon)
+
+### 真机示例
+- 目前只支持android
+
+![demo pic](./example/example.gif)
+
 
 ### 安装体验
 - [arm64](https://github.com/cWatermelon/hello_cnode/blob/master/apk/app-arm64-v8a-release.apk)
@@ -34,6 +42,8 @@ flutter packages pub run build_runner build
 ### 缺点
  > 富文本没有很好的办法展示, 所有回复的帖子如果包含图片的话, 是没法展示的... 这个好像没有很好的办法解决....
  
+### bug
+- 如果有问题 欢迎提个[issue](https://github.com/cWatermelon/hello_cnode/issues) 哈, 或者大神直接帮忙解决下~
 
 ### 依赖
 - [dio](https://pub.flutter-io.cn/packages/dio) 网络请求库
@@ -41,8 +51,3 @@ flutter packages pub run build_runner build
 - [webview_flutter](https://pub.flutter-io.cn/packages/webview_flutter) web_view
 - [shared_preferences](https://pub.flutter-io.cn/packages/shared_preferences) 简单的数据缓存
 - [qrscan](https://pub.flutter-io.cn/packages/qrscan) 安卓扫码
-
-### 真机示例
-
-![demo pic](./example/example.gif)
-
