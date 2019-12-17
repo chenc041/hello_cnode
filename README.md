@@ -9,7 +9,7 @@ A cnode client written by flutter
 ### 真机示例
 - 目前只支持android
 
-![demo pic](./example/example.gif)
+![demo pic](./example/example2.gif)
 
 
 ### 安装体验
