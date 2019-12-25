@@ -3,6 +3,7 @@
 A cnode client written by flutter
 
 - 欢迎大家试用哈~~~
+- 路过的点个✨呗
 
 ### 作者: [@chenc](https://github.com/cWatermelon)
 
