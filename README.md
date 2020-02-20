@@ -6,6 +6,7 @@ A cnode client written by flutter
 - 路过的点个✨呗
 
 ### 作者: [@chenc](https://github.com/cWatermelon)
+### 感谢 [@IEDA](https://jetbrains.com?from=hello_cnode) 
 
 ### 真机示例
 - 目前只支持android
