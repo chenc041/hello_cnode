@@ -5,7 +5,7 @@ A cnode client written by flutter
 - 欢迎大家试用哈~~~
 - 路过的点个✨呗
 
-### 作者: [@chenc](https://github.com/chenc419)
+### 作者: [@chenc](https://github.com/chenc041)
 ### 感谢 [@IEDA](https://jetbrains.com?from=hello_cnode) 
 
 ### 真机示例
